@@ -13,12 +13,12 @@
 <a name="1"></a>
 ### 1. Yêu cầu chung
 
-Server: 1 Core, 1 GB Ram, 20gb Disk
-OS: CentOS 7
-PHP >= 7.1.3 with OpenSSL, PDO, Mbstring, Tokenizer, XML, Ctype, Intl and JSON PHP Extensions.
-MariaDB version 10.x
-Laravel version 5.7
-1 IP Pub + 1 domain name
+- Server: 1 Core, 1 GB Ram, 20gb Disk
+- OS: CentOS 7
+- PHP >= 7.1.3 with OpenSSL, PDO, Mbstring, Tokenizer, XML, Ctype, Intl and JSON PHP Extensions.
+- MariaDB version 10.x
+- Laravel version 5.7
+- 1 IP Pub + 1 domain name
 
 <a name="2"></a>
 ### 2. Hướng dẫn cài đặt môi trường
@@ -168,7 +168,7 @@ TELEGRAM_BOT_TOKEN=xxxx
 
 Để lấy telegram bot token, tham khảo [tại đây](https://github.com/hocchudong/ghichep-telegram-bot)
 
-- Chỉnh sửa file `addtele.php`
+- Chỉnh sửa file `/var/www/html/sslcheck/addtele.php`
 
 ```
 $bottoken = 'xxxx';
