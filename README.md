@@ -10,8 +10,8 @@
 
 -------------------------------------------
 
-<a name="1">
-###1. Yêu cầu chung
+<a name="1"></a>
+### 1. Yêu cầu chung
 
 Server: 1 Core, 1 GB Ram, 20gb Disk
 OS: CentOS 7
@@ -20,8 +20,8 @@ MariaDB version 10.x
 Laravel version 5.7
 1 IP Pub + 1 domain name
 
-<a name="2">
-###2. Hướng dẫn cài đặt môi trường
+<a name="2"></a>
+### 2. Hướng dẫn cài đặt môi trường
 
 - Cài đặt remi và epel repo
 
@@ -82,8 +82,8 @@ chmod +x /usr/bin/composer
 
 `composer create-project --prefer-dist laravel/laravel test`
 
-<a name="3">
-###3. Hướng dẫn download và deploy mã nguồn
+<a name="3"></a>
+### 3. Hướng dẫn download và deploy mã nguồn
 
 - Install git & clone source code
 
