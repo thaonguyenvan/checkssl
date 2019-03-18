@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>SSLChecker</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Local bootstrap CSS & JS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- <link rel="stylesheet" media="screen" href="static/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/web.css">
+<script src="static/jquery/jquery-3.3.1.min.js"></script>
+<script src="static/bootstrap/js/bootstrap.min.js"></script> -->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="static/css/web.css">
+
+</head>
+<body>
+	<nav class="navbar navbar-expand-md navbar-dark bg-primary">
+		<div class="container">
+			<a class="navbar-brand" href="/">
+				SSLChecker
+			</a>
+			<button class="navbar-toggler" data-target="#collapsing-navbar" data-toggle="collapse" type="button">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="collapsing-navbar">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="/users/sign_in">Check SSL</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="myssl.html">My SSL</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" href="/users/sign_up">Settings</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/users/sign_up">Profile</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/users/sign_up">Logout</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="container mt-1">
+		<h1>Settings</h1>
+		<div class="white-bg p-4">
+			<div class="row">
+				<div class="col">
+					<h3>Reminders</h3>
+					<hr>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="card no-turbolinks" data-turbolinks="false">
+						<strong class="card-header">Send Reminder Mails to</strong>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item">
+								<span>thaonv2610@gmail.com</span>
+								<small class="small"><a class="text-danger" data-confirm="Are you sure you want to remove this Email?" rel="nofollow" data-method="delete" href="/notification_emails/191">Delete</a></small>
+							</li>
+							<li class="list-group-item">
+								<form class="form-inline" data-turbolinks="false" action="/notification_emails" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="aAaqWnjRUCRT+orXbQNXe3X1PV76AYVIq5ipvXRuf3m1R/p2LPuAx1B6WE4ibRYnDrJkmFJranuLiUp110xPqQ=="><div class="form-group">
+									<label class="sr-only" for="notification_email_email">Email</label>
+									<input class="form-control mb-1" placeholder="Add Email..." type="text" name="notification_email[email]">
+									<input type="submit" name="commit" value="Add" class="btn btn-primary mb-1" data-disable-with="Add">
+								</div>
+							</form></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="card">
+						<strong class="card-header">Telegram</strong>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item">
+								<a href="h">
+									<img alt="Add to Telegram" height="40" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" width="139">
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

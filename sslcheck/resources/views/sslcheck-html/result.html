@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>SSLChecker</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Local bootstrap CSS & JS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- <link rel="stylesheet" media="screen" href="static/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/web.css">
+	<script src="static/jquery/jquery-3.3.1.min.js"></script>
+	<script src="static/bootstrap/js/bootstrap.min.js"></script> -->
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<!-- Popper JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="static/css/web.css">
+	
+</head>
+<body>
+	<div class="modal" id="myModal">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">Thêm vào My SSL</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<!-- Modal body -->
+				<div class="modal-body">
+					<form action="">
+					  <div class="form-group">
+					    <label for="email">Gửi thông báo trước khi hết hạn ... ngày?</label>
+					    <input type="email" class="form-control" id="email">
+					  </div>
+					  <div class="form-group">
+					    <label for="pwd">Gửi lại thông báo sau ... ngày?</label>
+					    <input type="password" class="form-control" id="pwd">
+					  </div>
+					  <button type="submit" class="btn btn-primary">Thêm</button>
+					  <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<nav class="navbar navbar-expand-md navbar-dark bg-primary">
+		<div class="container">
+			<a class="navbar-brand" href="/">
+				SSLChecker
+			</a>
+			<button class="navbar-toggler" data-target="#collapsing-navbar" data-toggle="collapse" type="button">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="collapsing-navbar">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link active" href="/users/sign_in">Check SSL</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/users/sign_up">My SSL</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/users/sign_up">Settings</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/users/sign_up">Profile</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/users/sign_up">Logout</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="container mt-1">
+		<div class="row">
+			<div class="col">
+				<h2 style="margin-top: 30px;">SSL Check</h2><span><a href="">Tool này có thể làm gì?</a></span>
+			</div>
+		</div>
+		<div class="down-10"></div>
+		<div class="col-md-6" style="margin-left: 0px;padding-left: 0px;">
+			<div id="add-domain-form" style="margin-top: 30px;">
+				<div class="down-10">
+					<form class="form-inline" action="" accept-charset="UTF-8" data-remote="true" method="post">
+						<input name="utf8" type="hidden" value="✓">
+						<label class="sr-only" for="domain_name">Domain Name</label>
+						<div class="input-group mr-sm-2">
+							<div class="input-group-prepend">
+								<div class="input-group-text">https://</div>
+							</div>
+							<input class="form-control input-focus" placeholder="Nhập tên domain ..." type="text" name="domain[name]">
+						</div>
+						<input type="submit" name="commit" value="Check" class="btn btn-primary" data-disable-with="Adding...">
+					</form>
+				</div>
+			</div>	
+		</div>
+	</div>
+	<div class="container content-check">
+		<div class="row row-custom">
+			<div class="col-md-6"><p>1. Thông tin chung</p></div>
+			<div class="col-md-6"><p>2. Certificate của bạn</p></div>
+		</div>
+		<div class="row" style="margin-left: 0px;">
+			<div class="col-md-6 col-md-6-custom">
+				<table class="table table-bordered table-custom">
+				    <tbody>
+				      <tr>
+				        <td>Ngay het han</td>
+				        <td>12/1/2019</td>
+				      </tr>
+				      <tr>
+				        <td>Vendor signed</td>
+				        <td>Yes</td>
+				      </tr>
+				      <tr>
+				        <td>Server type</td>
+				        <td>Nginx</td>
+				      </tr>
+				    </tbody>
+				</table>
+			</div>
+			<div class="col-md-6 col-md-6-custom">
+				<table class="table table-bordered">
+				    <tbody>
+				      <tr>
+				        <td>Brand</td>
+				        <td>GeoTrus</td>
+				      </tr>
+				      <tr>
+				        <td>Type</td>
+				        <td>EV</td>
+				      </tr>
+				      <tr>
+				        <td>So ngay con lai</td>
+				        <td>22</td>
+				      </tr>
+				    </tbody>
+				</table>
+			</div>
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+			  Thêm vào My SSL
+			</button>
+		</div>
+		<div class="row row-custom down-10">
+			<div class="col-md-6"><p>3. Issued by</p></div>
+			<div class="col-md-6"><p>4. Issued for</p></div>
+		</div>
+		<div class="row" style="margin-left: 0px;">
+			<div class="col-md-6 col-md-6-custom">
+				<table class="table table-bordered table-custom">
+				    <tbody>
+				      <tr>
+				        <td>Common Name</td>
+				        <td>12/1/2019</td>
+				      </tr>
+				      <tr>
+				        <td>Organization</td>
+				        <td>Yes</td>
+				      </tr>
+				      <tr>
+				        <td>Country</td>
+				        <td>Nginx</td>
+				      </tr>
+				      <tr>
+				        <td>State</td>
+				        <td>Nginx</td>
+				      </tr>
+				      <tr>
+				        <td>Locality</td>
+				        <td>Nginx</td>
+				      </tr>
+				      <tr>
+				        <td>Address</td>
+				        <td>Nginx</td>
+				      </tr>
+				    </tbody>
+				</table>
+			</div>
+			<div class="col-md-6 col-md-6-custom">
+				<table class="table table-bordered">
+				    <tbody>
+				      <tr>
+				        <td>Organization</td>
+				        <td>GeoTrus</td>
+				      </tr>
+				      <tr>
+				        <td>Common name</td>
+				        <td>EV</td>
+				      </tr>
+				      <tr>
+				        <td>Country</td>
+				        <td>22</td>
+				      </tr>
+				      <tr>
+				        <td>State</td>
+				        <td>22</td>
+				      </tr>
+				      <tr>
+				        <td>Locality</td>
+				        <td>22</td>
+				      </tr>
+				    </tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>

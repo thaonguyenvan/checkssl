@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>SSLChecker</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Local bootstrap CSS & JS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- <link rel="stylesheet" media="screen" href="static/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/web.css">
+	<script src="static/jquery/jquery-3.3.1.min.js"></script>
+	<script src="static/bootstrap/js/bootstrap.min.js"></script> -->
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<!-- Popper JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="static/css/web.css">
+	
+</head>
+<body>
+	<nav class="navbar navbar-expand-md navbar-dark bg-primary">
+		<div class="container">
+			<a class="navbar-brand" href="/">
+				SSLChecker
+			</a>
+			<button class="navbar-toggler" data-target="#collapsing-navbar" data-toggle="collapse" type="button">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="collapsing-navbar">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="/users/sign_in">Check SSL</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" href="/users/sign_up">My SSL</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/users/sign_up">Settings</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/users/sign_up">Profile</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/users/sign_up">Logout</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="container mt-1">
+		<div class="row">
+			<div class="col">
+				<h1>
+					cloud365.vn
+					<img class="img-responsive" src="https://api.faviconkit.com/cloud365.vn/144" style="max-width: 32px">
+				</h1>
+			</div>
+		</div>
+		<div class="down-10"></div>
+		<div class="white-bg p-2">
+			<a class="btn btn-info mb-2" rel="nofollow" data-method="post" href="/domains/438/refresh">Refresh Certificate</a>
+			<a class="btn btn-info mb-2" data-toggle="modal" data-target="#full-certificate-text" href="#">Show Certificate Details</a>
+			<a class="btn btn-link float-sm-right mb-2" data-confirm="Are you sure you want to delete cloud365.vn and all of its associated data?" rel="nofollow" data-method="delete" href="">Delete cloud365.vn</a>
+			<hr>
+			<div class="row">
+				<div class="col-md-3 mt-2">
+					<div class="text-secondary">Expires on</div>
+					<h3 title="2019-05-16 00:19:02 UTC">May 16, 2019</h3>
+				</div>
+				<div class="col-md-3 mt-2">
+					<div class="text-secondary">Time remaining</div>
+					<h3>3 months</h3>
+				</div>
+				<div class="col-md-3 mt-2">
+					<div class="text-secondary">Issued by</div>
+					<h3>Let's Encrypt</h3>
+				</div>
+				<div class="col-md-3 mt-2">
+					<div class="text-secondary">Issued on</div>
+					<h3>Feb 15, 2019</h3>
+				</div>
+			</div>
+		</div>
+		<div aria-labelledby="Certificate Details" class="modal fade w-100" id="full-certificate-text" role="dialog" style="display: none;" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div class="modal-title">Certificate Details</div>
+						<button aria-label="Close" class="close" data-dismiss="modal" type="button">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+@font-face {
+    font-family: "LatoBold";
+    src: url("../fonts/Lato-Bold.ttf");
+}
+@font-face {
+    font-family: "LatoBlack";
+    src: url("../fonts/Lato-Black.ttf");
+}
+@font-face {
+    font-family: "LatoLight";
+    src: url("../fonts/Lato-Light.ttf");
+}
+@font-face {
+    font-family: "LatoRegular";
+    src: url("../fonts/Lato-Regular.ttf");
+}
+body{
+	    font-family: "LatoBold";
+}
+.down-10{
+	margin-top: 10px;
+}
+.bg-primary {
+    background-color: #5a60da!important;
+}
+.center {
+    margin: 0 auto;
+    text-align: center;
+}
+.jumbotron-custom{
+	background-color: #5a60da;
+	color: #fff;
+}
+.btn-success {
+    background-color: #5bdf5b;
+    border-color: #5bdf5b;
+}
+.content-check{
+	margin-top: 30px;
+}
+.row .col-md-4-custom{
+	border: 1px solid #ced4da;
+	margin-left: 0px;
+	color: #495057;
+	border-radius: .25rem;
+
+}
+.row-custom .col-md-4 p{
+	color: #5a60da;
+}
+.row .col-md-6-custom{
+	padding-left: 0px;
+}
+.white-bg {
+    background-color: #ffffff !important;
+    box-shadow: 1px 1px 3px 2px #dddddd;
+}

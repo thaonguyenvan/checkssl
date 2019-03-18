@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>SSLChecker</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Local bootstrap CSS & JS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- <link rel="stylesheet" media="screen" href="static/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/web.css">
+	<script src="static/jquery/jquery-3.3.1.min.js"></script>
+	<script src="static/bootstrap/js/bootstrap.min.js"></script> -->
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<!-- Popper JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="static/css/web.css">
+</head>
+<body>
+	<nav class="navbar navbar-expand-md navbar-dark bg-primary">
+		<div class="container">
+			<a class="navbar-brand" href="/">
+				SSLChecker
+			</a>
+			<button class="navbar-toggler" data-target="#collapsing-navbar" data-toggle="collapse" type="button">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="collapsing-navbar">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="/users/sign_in">Check SSL</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" href="/users/sign_up">My SSL</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/users/sign_up">Settings</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/users/sign_up">Profile</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/users/sign_up">Logout</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="container mt-1">
+		<div class="row">
+			<div class="col">
+				<h1>Domains</h1>
+			</div>
+		</div>
+		<div class="down-10"></div>
+		<div class="white-bg p-2">
+			<div class="row">
+				<div class="col-md-4">
+					<a class="btn btn-primary mb-1 domain-btn" onclick="showAdd()" data-toggle="#add-domain-form" href="#">Add a Domain</a>
+					<a class="btn btn-primary mb-1 domain-btn" onclick="showBulkAdd()" data-toggle="#add-bulk-domain-form" href="#">Bulk Add Domains</a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div id="add-domain-form" style="display: none">
+						<div class="down-10">
+							<form class="form-inline" action="/domains" accept-charset="UTF-8" data-remote="true" method="post">
+								<input name="utf8" type="hidden" value="✓">
+								<label class="sr-only" for="domain_name">Domain Name</label>
+								<div class="input-group mr-sm-2">
+									<div class="input-group-prepend">
+										<div class="input-group-text">https://</div>
+									</div>
+									<input class="form-control input-focus" placeholder="Enter domain name here..." type="text" name="domain[name]">
+								</div>
+								<input type="submit" name="commit" value="Add" class="btn btn-primary" data-disable-with="Adding...">
+							</form>
+						</div>
+					</div>
+					<div id="add-bulk-domain-form" style="display: none">
+						<div class="down-10">
+							<form class="form" action="/domains/bulk_add" accept-charset="UTF-8" data-remote="true" method="post">
+								<input name="utf8" type="hidden" value="✓">
+								<input type="hidden" name="authenticity_token" value="oyrV8MwxrZDcCLTSarVgTdNLNhYi5i0KwriT16yQ18d+a4XcmBt9c9+IZksl2yERqAxv0IqMwjniqXAfD7LnFw==">
+								<div class="form-group">
+									<label class="sr-only" for="names">Add domains</label>
+									<textarea class="form-control input-focus" name="names"></textarea>
+									<small class="help-text text-muted">Seperate different domains with commas</small>
+								</div>
+								<input type="submit" name="commit" value="Add Domains" class="btn btn-primary" data-disable-with="Add Domains">
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row down-10">
+				<div class="col">
+					<div class="table-responsive table-sm">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Domain</th>
+									<th>Expiry Date</th>
+									<th>Time remaining</th>
+									<th>Issued by</th>
+									<th>Domain Name Expiry</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+					<div class="row">
+						<div class="col">
+							<p>
+								Looks like you don't have any domains to monitor their Certificates.
+								Add a Domain by clicking the
+								<a class="btn btn-info mb-1 domain-btn" onclick="showAdd()" data-toggle="#add-domain-form" href="#">Add a Domain</a>
+								button above this table.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		function showAdd() {
+			var x = document.getElementById("add-domain-form");
+			if (x.style.display === "none") {
+				x.style.display = "block";
+			} else {
+				x.style.display = "none";
+			}
+		}
+		function showBulkAdd() {
+			var x = document.getElementById("add-bulk-domain-form");
+			if (x.style.display === "none") {
+				x.style.display = "block";
+			} else {
+				x.style.display = "none";
+			}
+		}
+	</script>
+</body>
+</html>
