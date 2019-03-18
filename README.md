@@ -147,6 +147,11 @@ Tạo liên kết cho file cấu hình virtual host
 - Chỉnh sửa thông tin trong file `/var/www/html/sslcheck/.env` với những thông tin phù hợp
 
 ```
+cp /var/www/html/sslcheck/.env.example /var/www/html/sslcheck/.env
+vi /var/www/html/sslcheck/.env
+```
+
+```
 APP_URL=http://xxxx
 
 DB_CONNECTION=mysql
@@ -173,12 +178,14 @@ TELEGRAM_BOT_TOKEN=xxxx
 ```
 $bottoken = 'xxxx';
 $offset = xxx;
+$conn = @mysqli_connect("localhost","root","$password","sslcheck") or die("Lỗi kết nối");
 ```
 
 Trong đó:
 
 - $bottoken: là telegram token bot
 - $offset: là update_id của message cuối cùng + 1. Ví dụ message gần nhất có update_id là : 4000 thì offset ta define vào file sẽ là 4001.
+- $password: là password user root của database
 
 <img src="https://i.imgur.com/j92cUJK.png">
 
