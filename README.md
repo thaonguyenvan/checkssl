@@ -44,8 +44,8 @@ systemctl enable httpd
 Thêm rule cho firewalld
 
 ```
-firewall-cmd –permanent –add-port=80/tcp
-firewall-cmd –permanent –add-port=443/tcp
+firewall-cmd --permanent --add-port=80/tcp
+firewall-cmd --permanent --add-port=443/tcp
 firewall-cmd --reload
 ```
 
@@ -126,13 +126,13 @@ và
 
 Sau đó save lại
 
-Tạo file `/etc/httpd/sites-available/supportdao.io.conf`
+Tạo file `/etc/httpd/sites-available/ssl.supportdao.io.conf`
 
 ```
 <VirtualHost *:80>
-    ServerName supportdao.io
+    ServerName ssl.supportdao.io
     DocumentRoot /var/www/html/sslcheck
-    ServerAlias supportdao.io
+    ServerAlias ssl.supportdao.io
     ErrorLog /var/www/html/sslcheck/error.log
     CustomLog /var/www/html/sslcheck/requests.log combined
 </VirtualHost>
@@ -142,7 +142,7 @@ Chỉnh sửa lại thông tin về domain cho phù hợp.
 
 Tạo liên kết cho file cấu hình virtual host
 
-`ln -s /etc/httpd/sites-available/supportdao.io.conf /etc/httpd/sites-enabled/supportdao.io.conf`
+`ln -s /etc/httpd/sites-available/ssl.supportdao.io.conf /etc/httpd/sites-enabled/ssl.supportdao.io.conf`
 
 - Chỉnh sửa thông tin trong file `/var/www/html/sslcheck/.env` với những thông tin phù hợp
 
@@ -252,4 +252,5 @@ Sau đó start supervisor
 
 <img src="https://i.imgur.com/XdcBmqO.png">
 
+Good luck,
 ThaoNV

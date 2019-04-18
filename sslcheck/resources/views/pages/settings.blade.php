@@ -3,37 +3,6 @@
 @section('title')
 <title>Cài đặt</title>
 @stop
-@section('navbar')
-<nav class="navbar navbar-expand-md navbar-dark bg-primary">
-		<div class="container">
-			<a class="navbar-brand" href="{{route('home')}}">
-				<img src="public/static/images/logo-white.png" alt="" width="130px" height="40px">
-			</a>
-			<button class="navbar-toggler" data-target="#collapsing-navbar" data-toggle="collapse" type="button">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="collapsing-navbar">
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item">
-						<a class="nav-link" href="{{route('checkssl')}}">Check SSL</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{route('myssl')}}">My SSL</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link active" href="{{route('setting')}}">Cài đặt</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{route('profile')}}">Trang cá nhân</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{route('logout')}}">Đăng xuất</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
-@stop
 @section('content')
 <div class="modal" id="myModal">
 		<div class="modal-dialog modal-dialog-centered">

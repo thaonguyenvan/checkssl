@@ -1,5 +1,9 @@
 <h2>
-	SSL của domain {{$data['domain']}} sắp hết hạn!
+	Những domain sau đây sắp hết hạn:
 </h2>
-<p>Số ngày còn lại: {{$data['dayleft']}} ngày</p>
-<p>Xem thêm thông tin tại: supportdao.io </p>
+<ul>
+	@foreach($ssl_expired as $ssl)
+		<li>{{$ssl['domain']}} - Số ngày còn lại: {{$ssl['dayleft']}}</li>
+	@endforeach
+</ul>
+<p>Xem thêm thông tin tại: https://supportdao.io </p>

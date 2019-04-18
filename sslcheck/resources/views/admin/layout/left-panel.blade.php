@@ -24,6 +24,7 @@
             <ul class="nav child_menu">
               <li><a href="admin/user/list">Danh sách user</a></li>
               <li><a href="admin/user/add">Thêm mới user</a></li>
+              <li><a href="admin/user/limit">Chỉnh cài đặt mặc định</a></li>
             </ul>
           </li>
           <li><a><i class="fa fa-edit"></i> SSL <span class="fa fa-chevron-down"></span></a>

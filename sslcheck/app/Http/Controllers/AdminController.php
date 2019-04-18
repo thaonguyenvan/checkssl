@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Email_noti;
 use App\Ssl;
+use App\Limit;
 use App\Ssl_all;
 use App\Tele_noti;
 use App\VerifyUser;
@@ -27,18 +28,21 @@ class AdminController extends Controller
     	$users = User::all();
     	$email_noti = Email_noti::all();
     	$tele_noti = Tele_noti::all();
+
     	return view('admin.user.userlist',['users'=>$users,'emails'=>$email_noti,'teles'=>$tele_noti]);
     }
 
     public function getUserAdd(){
-    	return view('admin.user.adduser');
+        $limit_default = Limit::first();
+    	return view('admin.user.adduser',['limit_default'=>$limit_default]);
     }
 
     public function editUser(Request $request,$id){
     	$this->validate($request,
     		[
     			'email'=>'required|email|max:255',
-    			'limit_ssl'=>'required|integer',
+                'limit_ssl'=>'required|integer',
+    			'limit_domain'=>'required|integer',
     			'limit_email'=>'required|integer',
     			'limit_tele'=>'required|integer'
     		],
@@ -48,6 +52,8 @@ class AdminController extends Controller
     			'email.max'=>'Email quá dài',
     			'limit_ssl.required'=>'Bạn chưa nhập limit ssl',
     			'limit_ssl.integer'=>'Sai định dạng',
+                'limit_domain.required'=>'Bạn chưa nhập limit domain',
+                'limit_domain.integer'=>'Sai định dạng',
     			'limit_email.required'=>'Bạn chưa nhập limit email',
     			'limit_email.integer'=>'Sai định dạng',
     			'limit_tele.required'=>'Bạn chưa nhập limit telegram',
@@ -64,7 +70,8 @@ class AdminController extends Controller
     			$user->email = $request->email;
     			if(empty($request->password)){
     			$user->role = $request->role;
-    			$user->limit_ssl = $request->limit_ssl;
+                $user->limit_ssl = $request->limit_ssl;
+    			$user->limit_domain = $request->limit_domain;
     			$user->limit_email = $request->limit_email;
     			$user->limit_tele = $request->limit_tele;
 
@@ -75,7 +82,8 @@ class AdminController extends Controller
 	    				if(count($request->password >= 6)){
 	    					$user->password = Hash::make($request->password);
 		    				$user->role = $request->role;
-		    				$user->limit_ssl = $request->limit_ssl;
+                            $user->limit_ssl = $request->limit_ssl;
+		    				$user->limit_domain = $request->limit_domain;
 		    				$user->limit_email = $request->limit_email;
 		    				$user->limit_tele = $request->limit_tele;
 
@@ -92,7 +100,8 @@ class AdminController extends Controller
     	} else {
     		if(empty($request->password)){
     			$user->role = $request->role;
-    			$user->limit_ssl = $request->limit_ssl;
+                $user->limit_ssl = $request->limit_ssl;
+    			$user->limit_domain = $request->limit_domain;
     			$user->limit_email = $request->limit_email;
     			$user->limit_tele = $request->limit_tele;
 
@@ -103,7 +112,8 @@ class AdminController extends Controller
     				if(count($request->password >= 6)){
 	    				$user->password = Hash::make($request->password);
 	    				$user->role = $request->role;
-	    				$user->limit_ssl = $request->limit_ssl;
+                        $user->limit_ssl = $request->limit_ssl;
+	    				$user->limit_domain = $request->limit_domain;
 	    				$user->limit_email = $request->limit_email;
 	    				$user->limit_tele = $request->limit_tele;
 
@@ -145,6 +155,7 @@ class AdminController extends Controller
     	$user->password = Hash::make($request->password);
     	$user->role = $request->role;
     	$user->limit_ssl = $request->limit_ssl;
+        $user->limit_domain = $request->limit_domain;
     	$user->limit_tele = $request->limit_tele;
     	$user->limit_email = $request->limit_email;
 
@@ -205,6 +216,73 @@ class AdminController extends Controller
     	$ssl_all = Ssl_all::orderBy('created_at','DESC')->get();
 
     	return view('admin.ssl.listsslall',['ssl_all'=>$ssl_all]);
+    }
+
+    public function listLimit(){
+        $limit_default = Limit::first();
+
+        return view('admin.user.limit-default',['limit_default'=>$limit_default]);
+    }
+
+    public function updateLimit(Request $request){
+        $this->validate($request,
+            [
+                'limit_ssl'=>'required|integer',
+                'limit_domain'=>'required|integer',
+                'limit_email'=>'required|integer',
+                'limit_tele'=>'required|integer'
+            ],
+            [
+                'limit_ssl.required'=>'Không được bỏ trống',
+                'limit_ssl.integer'=>'Sai định dạng',
+                'limit_domain.required'=>'Không được bỏ trống',
+                'limit_domain.integer'=>'Sai định dạng',
+                'limit_email.required'=>'Không được bỏ trống',
+                'limit_email.integer'=>'Sai định dạng',
+                'limit_tele.required'=>'Không được bỏ trống',
+                'limit_tele.integer'=>'Sai định dạng'
+            ]
+        );
+
+        $limit_default = Limit::first();
+
+        $limit_default->limit_ssl = $request->limit_ssl;
+        $limit_default->limit_domain = $request->limit_domain;
+        $limit_default->limit_email = $request->limit_email;
+        $limit_default->limit_tele = $request->limit_tele;
+
+        $limit_default->save();
+
+        return redirect('admin/user/limit')->with('status','Thay đổi thành công');
+    }
+
+    public function updateNoti(Request $request){
+        $this->validate($request,
+            [
+                'send_noti_before'=>'required|integer',
+                'send_noti_after'=>'required|integer'
+            ],
+            [
+                'send_noti_before.required'=>'Không được bỏ trống',
+                'send_noti_before.integer'=>'Sai định dạng',
+                'send_noti_after.required'=>'Không được bỏ trống',
+                'send_noti_after.integer'=>'Sai định dạng'
+            ]
+        );
+
+        if($request->send_noti_before > $request->send_noti_after){
+            $limit_default = Limit::first();
+
+            $limit_default->send_noti_before = $request->send_noti_before;
+            $limit_default->send_noti_after = $request->send_noti_after;
+
+            $limit_default->save();
+
+            return redirect('admin/user/limit')->with('status','Thay đổi thành công');
+        } else {
+            return redirect('admin/user/limit')->withErrors('Số ngày cảnh báo trở lại phải nhỏ hơn số ngày cảnh báo trước khi hết hạn');
+        }
+        
     }
 
 }

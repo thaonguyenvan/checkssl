@@ -3,37 +3,6 @@
 @section('title')
 <title>Kết quả check</title>
 @stop
-@section('navbar')
-<nav class="navbar navbar-expand-md navbar-dark bg-primary">
-		<div class="container">
-			<a class="navbar-brand" href="{{route('home')}}">
-				<img src="public/static/images/logo-white.png" alt="" width="130px" height="40px">
-			</a>
-			<button class="navbar-toggler" data-target="#collapsing-navbar" data-toggle="collapse" type="button">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="collapsing-navbar">
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item">
-						<a class="nav-link active" href="{{route('checkssl')}}">Check SSL</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{route('myssl')}}">My SSL</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{route('setting')}}">Cài đặt</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{route('profile')}}">Trang cá nhân</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{route('logout')}}">Đăng xuất</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
-@stop
 @section('content')
 <div class="modal" id="myModal">
 		<div class="modal-dialog modal-dialog-centered">
@@ -54,11 +23,11 @@
 					<input type="hidden" name="ssl_id" value="{{$information['ssl_id']}}">
 					  <div class="form-group">
 					    <label for="noti_before">Gửi thông báo trước khi hết hạn ... ngày?</label>
-					    <input type="text" value="60" class="form-control" name="noti_before" id="noti_before">
+					    <input type="text" value="{{$information['send_noti_before']}}" class="form-control" name="noti_before" id="noti_before">
 					  </div>
 					  <div class="form-group">
 					    <label for="noti_after">Gửi lại thông báo sau ... ngày?</label>
-					    <input type="text" value="30" class="form-control" name="noti_after" id="noti_after">
+					    <input type="text" value="{{$information['send_noti_after']}}" class="form-control" name="noti_after" id="noti_after">
 					  </div>
 					  <button type="submit" class="btn btn-primary">Thêm</button>
 					  <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>

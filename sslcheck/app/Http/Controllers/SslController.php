@@ -6,10 +6,14 @@ use Illuminate\Http\Request;
 use Spatie\SslCertificate\SslCertificate;
 use App\Ssl;
 use App\Ssl_all;
+use App\Limit;
 use App\User;
 use App\Email_noti;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Exports\SslExport;
+use App\Exports\ExportCustom;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SslController extends Controller
 {
@@ -25,9 +29,11 @@ class SslController extends Controller
 		}
 
 		$limit_ssl = Auth::user()->limit_ssl;
-		$ssl = Ssl::where('user_id',$user_id)->orderBy('created_at', 'DESC')->get();
+		$limit_default = Limit::first();
+		$ssl = Ssl::where('user_id',$user_id)->orderBy('dayleft', 'ASC')->get();
+		$link_export = 'user/ssl/export/'.$user_id;
 
-		return view('pages.myssl',['ssl'=>$ssl,'limit_ssl'=>$limit_ssl]);
+		return view('pages.myssl',['ssl'=>$ssl,'limit_ssl'=>$limit_ssl,'limit_default'=>$limit_default,'link_export'=>$link_export]);
 	}
 
 	public function getResult(){
@@ -47,12 +53,14 @@ class SslController extends Controller
 
 		$domain = $request->domain;
 		$ssl_all = new Ssl_all();
+		$limit_default = Limit::first();
 		$ssl_all->user_id = Auth::user()->id; 
 		$ssl_all->domain = $request->domain;
 		$ssl_id = rand(10,100000);
 		$ssl_all->ssl_id = $ssl_id;
 		try{
-			$certificate = SslCertificate::createForHostName($domain);
+			$timeout = 5;
+			$certificate = SslCertificate::createForHostName($domain,$timeout);
 			$ssl_all->has_ssl = 1;
 			$ssl_all->save();
 		} catch(\Exception $e){
@@ -83,7 +91,7 @@ class SslController extends Controller
 			return redirect()->route('checkssl')->withErrors('Vui lòng nhập theo định dạng được hướng dẫn bên dưới '.$domain);
 		}
 
-		$information = ['ssl_id'=>$ssl_id,'domain'=>$domain,'expire_at'=>$certificate->expirationDate()->setTimezone(new \DateTimeZone('Asia/Ho_Chi_Minh'))->format('Y-m-d H:i:s'), 'issue_by'=>$certificate->getIssuer(),'sign_algo'=>$certificate->getSignatureAlgorithm(),'more_domain'=>$certificate->getAdditionalDomains(),'server_type'=>$server_type,'brand'=>$certificate->getIssuer(),'dayleft'=>$certificate->daysUntilExpirationDate(),'organization'=>$certificate->getOrga(),'state'=>$certificate->getState(),'address'=>$certificate->getAddress(),'locality'=>$certificate->getLocality(),'country'=>$certificate->getCountry(),'issuer_infor'=>['organization'=>$certificate->getIssuerOrga(),'state'=>$certificate->getIssuerState(),'locality'=>$certificate->getIssuerLocality(),'country'=>$certificate->getIssuerCountry()]];
+		$information = ['ssl_id'=>$ssl_id,'send_noti_before'=>$limit_default->send_noti_before,'send_noti_after'=>$limit_default->send_noti_after,'domain'=>$domain,'expire_at'=>$certificate->expirationDate()->setTimezone(new \DateTimeZone('Asia/Ho_Chi_Minh'))->format('Y-m-d H:i:s'), 'issue_by'=>$certificate->getIssuer(),'sign_algo'=>$certificate->getSignatureAlgorithm(),'more_domain'=>$certificate->getAdditionalDomains(),'server_type'=>$server_type,'brand'=>$certificate->getIssuer(),'dayleft'=>$certificate->daysUntilExpirationDate(),'organization'=>$certificate->getOrga(),'state'=>$certificate->getState(),'address'=>$certificate->getAddress(),'locality'=>$certificate->getLocality(),'country'=>$certificate->getCountry(),'issuer_infor'=>['organization'=>$certificate->getIssuerOrga(),'state'=>$certificate->getIssuerState(),'locality'=>$certificate->getIssuerLocality(),'country'=>$certificate->getIssuerCountry()]];
 
 		return view('pages.result',['information'=>$information]);
 	}
@@ -101,29 +109,34 @@ class SslController extends Controller
 				'noti_after.min'=>'Số ngày phải là số dương'
 			]
 		);
-		$current_ssl = Ssl::where('user_id',Auth::user()->id)->get();
-		if(count($current_ssl) < Auth::user()->limit_ssl){
-			$ssl = new Ssl();
+		if($request->noti_before > $request->noti_after){
+			$current_ssl = Ssl::where('user_id',Auth::user()->id)->get();
+			if(count($current_ssl) < Auth::user()->limit_ssl){
+				$ssl = new Ssl();
 
-			$ssl->user_id = Auth::user()->id;
-			$ssl->domain = $request->domain_name;
-			$ssl->expire_at = $request->expire_at;
-			$ssl->dayleft = $request->dayleft;
-			$ssl->issue_by = $request->issue_by;
-			$ssl->send_noti_before = $request->noti_before;
-			$ssl->send_noti_after = $request->noti_after;
+				$ssl->user_id = Auth::user()->id;
+				$ssl->domain = $request->domain_name;
+				$ssl->expire_at = $request->expire_at;
+				$ssl->dayleft = $request->dayleft;
+				$ssl->issue_by = $request->issue_by;
+				$ssl->notification = 1;
+				$ssl->send_noti_before = $request->noti_before;
+				$ssl->send_noti_after = $request->noti_after;
 
-			$ssl->save();
+				$ssl->save();
 
-			$ssl_id = $request->ssl_id;
-			$ssl_all = Ssl_all::where('domain',$ssl->domain)->where('ssl_id',$ssl_id)->first();
-			if($ssl_all){
-				$ssl_all->is_stored = 1;
-				$ssl_all->save();
+				$ssl_id = $request->ssl_id;
+				$ssl_all = Ssl_all::where('domain',$ssl->domain)->where('ssl_id',$ssl_id)->first();
+				if($ssl_all){
+					$ssl_all->is_stored = 1;
+					$ssl_all->save();
+				}
+				return redirect('user/myssl')->with('status','Thêm thành công');
+			} else {
+				return redirect('user/myssl')->with('warning','Bạn đã dùng quá giới hạn của mình, vui lòng liên hệ với admin để được hỗ trợ');
 			}
-			return redirect('user/myssl')->with('status','Thêm thành công');
 		} else {
-			return redirect('user/myssl')->with('warning','Bạn đã dùng quá giới hạn của mình, vui lòng liên hệ với admin để được hỗ trợ');
+			return redirect('user/myssl')->withErrors('Số ngày cảnh báo trở lại phải nhỏ hơn số ngày cảnh báo trước khi hết hạn');
 		}
 	}
 
@@ -145,7 +158,8 @@ class SslController extends Controller
 		$current_ssl = Ssl::where('user_id',Auth::user()->id)->get();
 		if(count($current_ssl) < Auth::user()->limit_ssl){
 			try{
-				$certificate = SslCertificate::createForHostName($domain);
+				$timeout = 4;
+				$certificate = SslCertificate::createForHostName($domain,$timeout);
 			} catch(\Exception $e){
 				$ssl_all->has_ssl = 0;
 				$ssl_all->save();
@@ -153,14 +167,16 @@ class SslController extends Controller
 			}
 
 			$ssl = new Ssl();
+			$limit_default = Limit::first();
 
 			$ssl->user_id = Auth::user()->id;
 			$ssl->domain = $request->domain;
 			$ssl->expire_at = $certificate->expirationDate()->setTimezone(new \DateTimeZone('Asia/Ho_Chi_Minh'))->format('Y-m-d H:i:s');
 			$ssl->dayleft = $certificate->daysUntilExpirationDate();
 			$ssl->issue_by = $certificate->getIssuer();
-			$ssl->send_noti_before = 60;
-			$ssl->send_noti_after = 30;
+			$ssl->notification = 1;
+			$ssl->send_noti_before = $limit_default->send_noti_before;
+			$ssl->send_noti_after = $limit_default->send_noti_after;
 
 			$ssl->save();
 
@@ -201,14 +217,20 @@ class SslController extends Controller
 				'noti_after.min'=>'Số ngày phải là số dương'
 			]
 		);
-		$ssl = Ssl::find($id);
 
-		$ssl->send_noti_before = $request->noti_before;
-		$ssl->send_noti_after = $request->noti_after;
+		if($request->noti_before > $request->noti_after){
+			$ssl = Ssl::find($id);
 
-		$ssl->save();
+			$ssl->send_noti_before = $request->noti_before;
+			$ssl->send_noti_after = $request->noti_after;
 
-		return redirect('user/myssl')->with('notify','Sửa thành công');
+			$ssl->save();
+
+			return redirect('user/detail/'.$id)->with('notify','Sửa thành công');
+		} else {
+			return redirect('user/detail/'.$id)->withErrors('Số ngày cảnh báo trở lại phải nhỏ hơn số ngày cảnh báo trước khi hết hạn');
+		}
+		
 	}
 
 	public function addMultipleSsl(Request $request){
@@ -225,50 +247,119 @@ class SslController extends Controller
 		$domains = explode(',',$request->domain_names);
 
 		foreach ($domains as $domain) {
-			try{
-				$certificate = SslCertificate::createForHostName($domain);
-				$ssl = new Ssl();
+			$current_ssl = Ssl::where('user_id',Auth::user()->id)->get();
+			if(count($current_ssl) < Auth::user()->limit_ssl){
+				try{
+					$certificate = SslCertificate::createForHostName($domain);
+					$ssl = new Ssl();
+					$limit_default = Limit::first();
 
-				$ssl->user_id = Auth::user()->id;
-				$ssl->domain = $domain;
-				$ssl->expire_at = $certificate->expirationDate()->setTimezone(new \DateTimeZone('Asia/Ho_Chi_Minh'))->format('Y-m-d H:i:s');
-				$ssl->dayleft = $certificate->daysUntilExpirationDate();
-				$ssl->issue_by = $certificate->getIssuer();
-				$ssl->send_noti_before = 60;
-				$ssl->send_noti_after = 30;
+					$ssl->user_id = Auth::user()->id;
+					$ssl->domain = $domain;
+					$ssl->expire_at = $certificate->expirationDate()->setTimezone(new \DateTimeZone('Asia/Ho_Chi_Minh'))->format('Y-m-d H:i:s');
+					$ssl->dayleft = $certificate->daysUntilExpirationDate();
+					$ssl->issue_by = $certificate->getIssuer();
+					$ssl->send_noti_before = $limit_default->send_noti_before;
+					$ssl->send_noti_after = $limit_default->send_noti_after;
 
-				$ssl->save();
+					$ssl->notification = 1;
 
-				$ssl_all = new Ssl_all();
+					$ssl->save();
 
-				$ssl_all->user_id = Auth::user()->id; 
-				$ssl_all->domain = $domain;
-				$ssl_all->has_ssl = 1;
-				$ssl_all->is_stored = 1;
+					$ssl_all = new Ssl_all();
 
-				$ssl_all->save();
-			} catch(\Exception $e){
-				$ssl_all = new Ssl_all();
+					$ssl_all->user_id = Auth::user()->id; 
+					$ssl_all->domain = $domain;
+					$ssl_all->has_ssl = 1;
+					$ssl_all->is_stored = 1;
 
-				$ssl_all->user_id = Auth::user()->id; 
-				$ssl_all->domain = $domain;
-				$ssl_all->has_ssl = 0;
+					$ssl_all->save();
+				} catch(\Exception $e){
+					$ssl_all = new Ssl_all();
 
-				$ssl_all->save();
-				return redirect()->route('myssl')->withErrors('Xin lỗi, chúng tôi không tìm thấy thông tin về ssl cho '.$domain);
+					$ssl_all->user_id = Auth::user()->id; 
+					$ssl_all->domain = $domain;
+					$ssl_all->has_ssl = 0;
+
+					$ssl_all->save();
+				}
+			} else {
+				return redirect('user/myssl')->with('warning','Bạn đã dùng quá giới hạn của mình, vui lòng liên hệ với admin để được hỗ trợ');
 			}
-			
 		}
 
 		return redirect('user/myssl')->with('notify','Thêm thành công');
 	}
 
-	public function thu(){
-		$email_noti = Email_noti::where('user_id',1)->get();
-		if($email_noti->first()){
-			echo '1';
-		} else {
-			echo "0";
+	public function exportSsl($id){
+		return Excel::download(new SslExport($id), 'domains.xlsx');
+	}
+
+	public function exportCustom($expression,$day){
+		if($expression == 'lt'){
+        	$exp = '<';
+        } else if($expression == 'gt'){
+        	$exp = '>';
+        } else {
+        	$exp = "=";
+        }
+		return Excel::download(new ExportCustom($exp,$day), 'domains.xlsx');
+	}
+
+	public function filterSsl(Request $request){
+		$this->validate($request,
+			[
+				'day'=>'required|integer|min:0'
+			],
+			[
+				'day.required'=>'Bạn chưa nhập số ngày',
+				'day.integer'=>'Sai định dạng',
+				'day.min'=>'Số ngày phải là số dương'
+			]
+		);
+
+		$column = $request->column;
+		$expression = $request->expression;
+		$day = $request->day;
+
+		if ($column == 1) {
+			if($expression == 1){
+				try{
+					$user_id = Auth::user()->id;
+				} catch (\Exception $e){
+					return redirect()->route('login')->withErrors('Your session is expired');
+				}
+
+				$limit_ssl = Auth::user()->limit_ssl;
+				$ssl = Ssl::where('user_id',$user_id)->where('dayleft','<',$day)->orderBy('dayleft', 'ASC')->get();
+				$link_export ="user/ssl/exportcus/lt&".$day;
+
+				return view('pages.myssl',['ssl'=>$ssl,'limit_ssl'=>$limit_ssl,'link_export'=>$link_export]);
+			} else if($expression == 2) {
+				try{
+					$user_id = Auth::user()->id;
+				} catch (\Exception $e){
+					return redirect()->route('login')->withErrors('Your session is expired');
+				}
+
+				$limit_ssl = Auth::user()->limit_ssl;
+				$ssl = Ssl::where('user_id',$user_id)->where('dayleft','>',$day)->orderBy('dayleft', 'ASC')->get();
+				$link_export ="user/ssl/exportcus/gt&".$day;
+
+				return view('pages.myssl',['ssl'=>$ssl,'limit_ssl'=>$limit_ssl,'link_export'=>$link_export]);
+			} else {
+				try{
+					$user_id = Auth::user()->id;
+				} catch (\Exception $e){
+					return redirect()->route('login')->withErrors('Your session is expired');
+				}
+
+				$limit_ssl = Auth::user()->limit_ssl;
+				$ssl = Ssl::where('user_id',$user_id)->where('dayleft','=',$day)->orderBy('dayleft', 'ASC')->get();
+				$link_export ="user/ssl/exportcus/eq&".$day;
+
+				return view('pages.myssl',['ssl'=>$ssl,'limit_ssl'=>$limit_ssl,'link_export'=>$link_export]);
+			}
 		}
 	}
 	

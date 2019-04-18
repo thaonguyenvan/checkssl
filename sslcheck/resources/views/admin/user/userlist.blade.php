@@ -78,6 +78,13 @@
             </div>
           </div>
           <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Số Domain
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input id="limit_domain" class="form-control col-md-7 col-xs-12" value="{{$user->limit_domain}}" type="text" name="limit_domain">
+            </div>
+          </div>
+          <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12">Số Email
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -158,6 +165,7 @@
                   <th>Email Noti</th>
                   <th>Tele Noti</th>
                   <th>Limit SSL</th>
+                  <th>Limit Domain</th>
                   <th>Limit Email Noti</th>
                   <th>Limit Tele Noti</th>
                   <th colspan="2">Action</th>
@@ -202,6 +210,7 @@
                   </ul>
                 </td>
                 <td>{{$user->limit_ssl}}</td>
+                <td>{{$user->limit_domain}}</td>
                 <td>{{$user->limit_email}}</td>
                 <td>{{$user->limit_tele}}</td>
                 <td>

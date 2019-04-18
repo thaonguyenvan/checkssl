@@ -13,7 +13,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        'App\Console\Commands\CheckSsl'
+        'App\Console\Commands\UpdateSsl',
+        'App\Console\Commands\SendNoti',
+        'App\Console\Commands\CheckDomain',
     ];
 
     /**
@@ -26,7 +28,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->command('check:ssl')->everyMinute();
+        $schedule->command('update:ssl')->dailyAt('8:00')->timezone('Asia/Ho_Chi_Minh');
+        $schedule->command('send:noti')->dailyAt('9:00')->timezone('Asia/Ho_Chi_Minh');
+        $schedule->command('check:domain')->dailyAt('10:00')->timezone('Asia/Ho_Chi_Minh');
     }
 
     /**

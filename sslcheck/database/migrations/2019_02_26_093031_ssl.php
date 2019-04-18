@@ -17,10 +17,11 @@ class Ssl extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->string('domain');
-            $table->timestamp('expire_at');
+            $table->timestamp('expire_at')->nullable();
             $table->integer('dayleft')->nullable();
             $table->string('issue_by');
             $table->integer('send_noti_before');
+            $table->tinyInteger('notification')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

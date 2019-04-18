@@ -1,6 +1,6 @@
 <?php
     function getUpdate($offset){
-    	$bottoken = 'xxxx';
+    	$bottoken = 'xxx';
 	    $result=file_get_contents('https://api.telegram.org/bot'.$bottoken.'/getUpdates?offset='.$offset);
 	    $result = json_decode($result, true);
 
@@ -8,7 +8,7 @@
     }
 
     function sendMessage($chatID, $messaggio) {
-	    $token = 'xxxx';
+	    $token = 'xxx';
 
 	    $url = "https://api.telegram.org/bot" . $token . "/sendMessage?chat_id=" . $chatID;
 	    $url = $url . "&text=" . urlencode($messaggio);

@@ -15,16 +15,16 @@ class SendEmailNoti implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $data;
+    public $ssl_expired;
     public $email;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($data,$email)
+    public function __construct($ssl_expired,$email)
     {
-        $this->data = $data;
+        $this->ssl_expired = $ssl_expired;
         $this->email = $email;
     }
 
@@ -35,6 +35,6 @@ class SendEmailNoti implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($email->email)->send(new SendNotiMail($data));
+        Mail::to($this->email)->send(new SendNotiMail($this->ssl_expired));
     }
 }

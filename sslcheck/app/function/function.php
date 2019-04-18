@@ -6,36 +6,11 @@
 	    return openssl_x509_parse($cont["options"]["ssl"]["peer_certificate"]);
 	}
 
-	function url_test( $url ) {
-		  $timeout = 10;
-		  $ch = curl_init();
-		  curl_setopt ( $ch, CURLOPT_URL, $url );
-		  curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, 1 );
-		  curl_setopt ( $ch, CURLOPT_TIMEOUT, $timeout );
-		  $http_respond = curl_exec($ch);
-		  $http_respond = trim( strip_tags( $http_respond ) );
-		  $http_code = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
-		  if ( ( $http_code == "200" ) || ( $http_code == "302" ) ) {
-		    return true;
-		  } else {
-		    return false;
-		  }
-		  curl_close( $ch );
+	function is_valid_domain_name($domain_name)
+	{
+	    return (preg_match("/^([a-z\d](-*[a-z\d])*)(\.([a-z\d](-*[a-z\d])*))*$/i", $domain_name) //valid chars check
+	            && preg_match("/^.{1,253}$/", $domain_name) //overall length check
+	            && preg_match("/^[^\.]{1,63}(\.[^\.]{1,63})*$/", $domain_name)   ); //length of each label
 	}
-	
-	function checkOnline($domain) {
-		   $curlInit = curl_init($domain);
-		   curl_setopt($curlInit,CURLOPT_CONNECTTIMEOUT,10);
-		   curl_setopt($curlInit,CURLOPT_HEADER,true);
-		   curl_setopt($curlInit,CURLOPT_NOBODY,true);
-		   curl_setopt($curlInit,CURLOPT_RETURNTRANSFER,true);
-
-		   //get answer
-		   $response = curl_exec($curlInit);
-
-		   curl_close($curlInit);
-		   if ($response) return true;
-		   return false;
-		}
 
 ?>

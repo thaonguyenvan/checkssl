@@ -25,7 +25,7 @@ class MustBeOwner
         {
             return $next($request);
         } else {
-            return redirect()->route('profile');
+            return redirect()->route('myssl');
         }
     }
 }

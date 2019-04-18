@@ -31,6 +31,9 @@ class User extends Authenticatable
     public function ssl(){
         return $this->hasMany('App\Ssl','user_id','id');
     }
+    public function domain(){
+        return $this->hasMany('App\Domain','user_id','id');
+    }
     public function ssl_all(){
         return $this->hasMany('App\Ssl_all','user_id','id');
     }

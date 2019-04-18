@@ -109,21 +109,28 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="limit_ssl">Giới hạn SSL <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="limit_ssl" name="limit_ssl" value="10" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="limit_ssl" name="limit_ssl" value="{{$limit_default->limit_ssl}}" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="limit_ssl">Giới hạn Domain <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="limit_domain" name="limit_domain" value="{{$limit_default->limit_domain}}" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="limit_email">Giới hạn email <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="limit_email" name="limit_email" value="2" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="limit_email" name="limit_email" value="{{$limit_default->limit_email}}" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="limit_tele">Giới hạn telegram <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="limit_tele" name="limit_tele" value="1" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="limit_tele" name="limit_tele" value="{{$limit_default->limit_tele}}" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">

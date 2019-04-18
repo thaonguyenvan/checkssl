@@ -3,37 +3,6 @@
 @section('title')
 <title>Chi tiết SSL</title>
 @stop
-@section('navbar')
-<nav class="navbar navbar-expand-md navbar-dark bg-primary">
-		<div class="container">
-			<a class="navbar-brand" href="{{route('home')}}">
-				<img src="public/static/images/logo-white.png" alt="" width="130px" height="40px">
-			</a>
-			<button class="navbar-toggler" data-target="#collapsing-navbar" data-toggle="collapse" type="button">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="collapsing-navbar">
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item">
-						<a class="nav-link" href="{{route('checkssl')}}">Check SSL</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link active" href="{{route('myssl')}}">My SSL</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{route('setting')}}">Cài đặt</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{route('profile')}}">Trang cá nhân</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{route('logout')}}">Đăng xuất</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
-@stop
 @section('content')
 <div class="modal" id="myModal">
 		<div class="modal-dialog modal-dialog-centered">
@@ -63,6 +32,21 @@
 		</div>
 	</div>
 	<div class="container mt-1">
+		@if (session('status'))
+		  <div class="alert alert-success">
+		    {{ session('status') }}
+		  </div>
+		@endif
+		@if (session('notify'))
+		  <div class="alert alert-success">
+		    {{ session('notify') }}
+		  </div>
+		@endif
+		@if (session('warning'))
+		  <div class="alert alert-warning">
+		    {{ session('warning') }}
+		  </div>
+		@endif
 		@if(count($errors) > 0)
             <div class="alert alert-danger">
                 @foreach($errors->all() as $err)
@@ -84,7 +68,7 @@
 			<form style="display:inline-block;" action="user/detail/delete/{{$ssl->id}}" method="post">
 				{{ csrf_field() }}
 			    {{ method_field('DELETE') }}
-			    <button type="submit" class="btn btn-info mb-2" onclick="return checkDelete()">Xóa {{$ssl->domain}}</button>
+			    <button type="submit" class="btn btn-danger mb-2" onclick="return checkDelete()">Xóa {{$ssl->domain}}</button>
 			</form>
 			<hr>
 			<div class="row">
@@ -103,6 +87,16 @@
 				<div class="col-md-3 mt-2">
 					<div class="text-secondary">Ngày khởi tạo</div>
 					<h3>{{date('d-m-Y', strtotime($ssl->created_at))}}</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3 mt-2">
+					<div class="text-secondary">Gửi cảnh báo trước khi hết hạn</div>
+					<h3 title="">{{$ssl->send_noti_before." ngày"}}</h3>
+				</div>
+				<div class="col-md-3 mt-2">
+					<div class="text-secondary">Gửi cảnh lại sau</div>
+					<h3>{{$ssl->send_noti_after." ngày"}}</h3>
 				</div>
 			</div>
 		</div>

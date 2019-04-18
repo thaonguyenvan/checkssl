@@ -11,15 +11,15 @@ class SendNotiMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $data;
+    public $ssl_expired;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($ssl_expired)
     {
-        $this->data = $data;
+        $this->ssl_expired = $ssl_expired;
     }
 
     /**
@@ -29,6 +29,6 @@ class SendNotiMail extends Mailable
      */
     public function build()
     {
-        return $this->from('thaonv2610@gmail.com','Support Dạo')->subject('SupportDao: SSL của bạn sắp hết hạn!')->view('emails.emailnoti')->with('data', $this->data);
+        return $this->subject('SupportDao: SSL của bạn sắp hết hạn!')->view('emails.emailnoti')->with('ssl_expired', $this->ssl_expired);
     }
 }

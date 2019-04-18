@@ -17,6 +17,9 @@
 body{
 	    font-family: "LatoBold";
 }
+navbar .nav-item a:hover{
+    color: #fff;
+}
 .down-10{
 	margin-top: 10px;
 }

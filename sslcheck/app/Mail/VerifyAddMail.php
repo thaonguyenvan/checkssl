@@ -30,6 +30,6 @@ class VerifyAddMail extends Mailable
      */
     public function build()
     {
-        return $this->from('thaonv2610@gmail.com','Support Dạo')->subject('SSL Check: Xác thực tài khoản')->view('emails.verifyAddMail');
+        return $this->subject('SSL Check: Xác thực tài khoản')->view('emails.verifyAddMail');
     }
 }

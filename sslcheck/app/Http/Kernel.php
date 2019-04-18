@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
         'homemiddleware'=> \App\Http\Middleware\homemiddleware::class,
         'mustbeowner'=> \App\Http\Middleware\MustBeOwner::class,
         'mustbeownerssl'=> \App\Http\Middleware\MustBeOwnerSsl::class,
+        'mustbeownerdomain'=> \App\Http\Middleware\mustbeownerdomain::class,
         'mustbeowneremail'=> \App\Http\Middleware\MustBeOwnerEmail::class,
         'mustbeownertele'=> \App\Http\Middleware\MustBeOwnerTele::class,
         'adminlogin'=> \App\Http\Middleware\AdminLogin::class,

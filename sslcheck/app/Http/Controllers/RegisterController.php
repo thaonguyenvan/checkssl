@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Limit;
 use App\VerifyUser;
 use App\Email_noti;
 use Illuminate\Http\Request;
@@ -89,12 +90,14 @@ class RegisterController extends Controller
         // ]);
 
         $user = new User();
+        $limit_default = Limit::first();
 
         $user->email = $data['email'];
         $user->password = Hash::make($data['password']);
-        $user->limit_ssl = 10;
-        $user->limit_email = 2;
-        $user->limit_tele = 1;
+        $user->limit_ssl = $limit_default->limit_ssl;
+        $user->limit_domain = $limit_default->limit_domain;
+        $user->limit_email = $limit_default->limit_email;
+        $user->limit_tele = $limit_default->limit_tele;
 
         $user->save();
 
