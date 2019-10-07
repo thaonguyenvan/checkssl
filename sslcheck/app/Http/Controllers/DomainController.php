@@ -57,7 +57,7 @@ class DomainController extends Controller
 				$pre_domain = explode(".vn", $domain);
 
 
-				$url = 'https://nhanhoa.com/whois/?domain='.$pre_domain[0].'&ext=.vn&type=1';
+				$url = 'xxx.com'.$pre_domain[0].'&ext=.vn&type=1';
 		        curl_setopt($ch, CURLOPT_URL,$url);
 		        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
